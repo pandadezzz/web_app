@@ -1,4 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template, request
+
+#Backend
+import requests
+import json
+import unirest
+
+api_key = '1c3b759866msh08fc8fcca0665b0p1efcfdjsn3fe94d77020c'
+refurl = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0"
 
 response = unirest.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",
   headers={
@@ -34,7 +42,7 @@ posts = [
 @app.route("/")
 @app.route("/home")
 def hello():
-	return response
+	return response.code
 	#render_template('home.html', posts=posts)
 
 @app.route("/about")
