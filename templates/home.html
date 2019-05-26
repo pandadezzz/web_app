@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+</head>
+<body>
+	{% for post in posts%}
+		<h1>{{post.author}}</h1>
+		<p>By {{post.title}}</p>
+	{% endfor %}
+</body>
+</html>
