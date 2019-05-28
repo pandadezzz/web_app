@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sky Scanner</title>
+</head>
+<body>
+		<h1>Sky Scanner App</h1>
+		<p>This app allows user to search for cheapest flight given range</p>
+		<form action="search" method = "get">
+		  OutBound Start Range: <input type="date" name="out_date_start"><br> 
+		  OutBound End Range: <input type="date" name="out_date_end"><br><br> 
+
+		  InBound Start Range: <input type="date" name="in_date_start"><br> 
+		  InBound End Range: <input type="date" name="in_date_end"><br><br> 
+
+		  Origin City
+		  <select name="out_city">
+		    <option value="SFO-sky">SFO</option>
+		    <option value="LHR-sky">LHR</option>
+		  </select><br>
+
+		  Destination City
+		  <select name="in_city">
+		    <option value="SFO-sky">SFO</option>
+		    <option value="LHR-sky">LHR</option>
+		  </select>
+
+		  <br><br><input type="submit">
+		</form>
+</body>
+</html>

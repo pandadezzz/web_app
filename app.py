@@ -1,49 +1,27 @@
 from flask import Flask, jsonify, render_template, request
 
 #Backend
-import requests
-import json
 import unirest
-
-api_key = '1c3b759866msh08fc8fcca0665b0p1efcfdjsn3fe94d77020c'
-refurl = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0"
-
-response = unirest.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",
-  headers={
-    "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-    "X-RapidAPI-Key": "1c3b759866msh08fc8fcca0665b0p1efcfdjsn3fe94d77020c",
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  params={
-    "inboundDate": "2019-09-10",
-    "cabinClass": "business",
-    "children": 0,
-    "infants": 0,
-    "country": "US",
-    "currency": "USD",
-    "locale": "en-US",
-    "originPlace": "SFO-sky",
-    "destinationPlace": "LHR-sky",
-    "outboundDate": "2019-09-01",
-    "adults": 1
-  }
-)
-
-
+import json
+#import unirest
 app = Flask(__name__)
 
-posts = [
-	{
-		'author':'person1',
-		'title': 'blog post 1'
-	}
-]
 
 @app.route("/")
 @app.route("/home")
 def hello():
-	return response.code
-	#render_template('home.html', posts=posts)
+	return render_template('home.html')
+
+@app.route("/skyscanner")
+def skyscanner():
+	return render_template('skyscanner_appHome.html')
+
+@app.route("/search",methods = ['POST', 'GET'])
+def skyscanner_search():
+	out_date= request.args.get('out_date_start')
+	render_template('search.html',out_date_start=out_date)
+
+	return render_template('skyscanner_result.html')
 
 @app.route("/about")
 def about():
