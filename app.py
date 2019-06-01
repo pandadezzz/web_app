@@ -40,5 +40,9 @@ def skyscanner_search():
 def about():
 	return "<h1>About page</h>"
 
+@app.route("/boot")
+def boot():
+	return render_template('bootstrap_test.html')
+
 if __name__ =='__main__':
 	app.run(debug=True)
