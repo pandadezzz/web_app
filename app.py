@@ -33,12 +33,9 @@ def skyscanner_search():
 	out_city= request.args.get('out_city')
 	in_city= request.args.get('in_city')
 	data = [out_date_start,out_date_end,in_date_start,in_date_end,out_city,in_city]
-	# for i in range(len(data)):
-	# 	data[i] = str(data[i])
-	# for d in data:
-	# 	print type(d),d
+
 	res = skyscanner_app.get_data(data)
-	min_data = skyscanner_app.get_cheapest(res)
+	min_data = skyscanner_app.get_cheapest(res) 
 
 	return render_template('skyscanner_result.html',data = min_data)
 
