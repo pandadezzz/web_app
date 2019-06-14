@@ -15,7 +15,11 @@ headers={
 }
 
 def create_Range(start_date,end_date):
-	#return list of range of date
+	'''
+	Given start_date, end_date in string
+	Return a list of dates in between
+	'''
+
 	st = datetime.strptime(start_date,"%Y-%m-%d")
 	et = datetime.strptime(end_date,"%Y-%m-%d")
 	days = (et-st).days
@@ -28,13 +32,20 @@ def create_Range(start_date,end_date):
 	return res
 
 def get_data(data):
-	#return data of flight info given parameters
+	'''
+	Given parameters: data = [out_date_start,out_date_end,in_date_start,in_date_end,out_city,in_city]
+	Use rapidapi-skyscanner api to retrieve live flight data 
+	Return list of [date,flight data]
+
+	sometimes will trhow error as api is free so there is limit to access per given time
+	will need to fix this
+	'''
 
 	out_date_start,out_date_end,in_date_start,in_date_end,origin_place,destination_place=data
 	res =[]
 	in_range = create_Range(in_date_start,in_date_end)
 	out_range = create_Range(out_date_start,out_date_end)
-	# print in_range, out_range
+
 	for out_date in out_range:
 		for in_date in in_range:
 			# making sure return date is after out date
@@ -59,9 +70,8 @@ def get_data(data):
 				}
 
 				r_post = unirest.post(refurl,headers=headers,params=params)
-
 				session_id= r_post.headers["Location"].split('/')[-1]
-				# print out_date,in_date
+				# getting session_id 
 
 				response = unirest.get("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/"+session_id+"?pageIndex=0&pageSize=10",
 					headers={
@@ -72,10 +82,15 @@ def get_data(data):
 				
 				day_response = [(out_date,in_date),response.body]
 				res.append(day_response)
+				#appending this day's result
 	return res
 
 def get_cheapest(data):
-	#finding the cheapest data given flight data
+	'''
+	Given data from previous funciton
+
+	Find and return the cheapest ticket information
+	'''
 
 	legs = {}
 	carriers = {}
@@ -94,18 +109,18 @@ def get_cheapest(data):
 			id = carrier["Id"]
 			carriers[id]=carrier
 		
-		#get agent info
+		#get agent info. i.e. where the ticket is purchaed from
 		for agent in p[1]["Agents"]:
 			id = agent["Id"]
 			agents[id]=agent
 		
-		#get places info
+		#get places info. - city information
 		for place in p[1]["Places"]:
 			id = place["Id"]
 			places[id]=place
 		
 		day = p[0]
-		print(day)
+		#print(day)
 		Itineraries = p[1]["Itineraries"]
 		min_price = None
 		out_leg_info,in_leg_info,book_url="","",""
@@ -130,7 +145,6 @@ def get_cheapest(data):
 		#with leg_id we can get flight details
 		#get outbound information
 		out_carrier_id = legs[out_leg_id]["Carriers"][0]
-		# print(carriers)
 		out_carrier = carriers[out_carrier_id]["Name"]
 		out_departure = legs[out_leg_id]["Departure"]
 		out_arrival = legs[out_leg_id]["Arrival"]
