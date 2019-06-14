@@ -14,18 +14,23 @@ app.secret_key = 'secret'
 @app.route("/")
 @app.route("/home")
 def hello():
+	# Goes to home page
 	return render_template('home.html')
 
 @app.route("/skyscanner")
 def skyscanner():
+	# Goes to SkyScanner page
+
+
 	# form = ExampleForm()
 	# if form.validate_on_submit():
 	# 	return form.dt.data.strftime('%Y-%m-%d')
 	return render_template('skyscanner_appHome.html')
 
+
 @app.route("/search",methods = ['POST', 'GET'])
 def skyscanner_search():
-
+	# Goes to SkyScanner search page
 	out_date_start= request.args.get('out_date_start')
 	out_date_end= request.args.get('out_date_end')
 	in_date_start= request.args.get('in_date_start')
@@ -43,6 +48,7 @@ def skyscanner_search():
 @app.route("/boot")
 # test of bootstrap
 def boot():
+	# Goes to boostsrtap test page
 	return render_template('bootstrap_test.html')
 
 if __name__ =='__main__':
